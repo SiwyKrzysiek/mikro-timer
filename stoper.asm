@@ -20,9 +20,10 @@ org 000Bh
 
 ORG 1000
 start:
-	setb 7Fh ;Timer dziala
-	;clr 7Fh ;Timer stoi
+	;setb 7Fh ;Timer dziala
+	clr 7Fh ;Timer stoi
 	mov R7, #0 ;Tmier jest wyzerowany
+	mov R6, #0
 
 	;Ustawienienie trybu timera i zdjęcie masek
 	mov TMOD, #10b
@@ -32,9 +33,7 @@ start:
 	setb TR0
 
 loop:
-	;Opoznienie może być niepotrzebne
-	mov R0, #0
-	djnz R0, $
+	;Można dać opóźnienie lub przenieść na timer by zniwelować odbicia
 	lcall buttons
 	ljmp loop
 	
@@ -79,10 +78,14 @@ buttons:
 	ret
 
 startButton:
+	setb 7Fh ;Timer dziala
 	ljmp startButtonReturn
 
 stopButton:
+	clr 7Fh
 	ljmp stopButtonReturn
 
 clearButton:
+	mov R7, #0
+	lcall display
 	ljmp clearButtonReturn
