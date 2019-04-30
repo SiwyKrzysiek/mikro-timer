@@ -1,7 +1,5 @@
 ;Nie da sie wyswietlac na 2 wyswietlaczach na raz
-;Zamiast tego wynik bedzie wysiwetlany na R6R5
-;R6 - liczba dziesiatek
-;R5 - liczba jednosci
+;Zamiast tego wynik bedzie wysiwetlany na R6 w kodzie BCD
 
 ;Opis guzików:
 ;P2.0 - Start
@@ -58,10 +56,14 @@ display:
 	mov b, #10
 	div ab
 	
-	;Wypisanie na R6R5
-	mov R6, a
-	mov R5, b
-	
+	;Wypisanie na R6
+	mov R1, b ;Odłożenie b
+
+	mov b, #16
+	mul ab
+	add a, R1
+
+	mov R6, a	
 	ret
 
 
