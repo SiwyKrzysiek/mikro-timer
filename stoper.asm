@@ -35,6 +35,7 @@ loop:
 	;Opoznienie może być niepotrzebne
 	mov R0, #0
 	djnz R0, $
+	lcall buttons
 	ljmp loop
 	
 timerTick:
@@ -66,7 +67,22 @@ display:
 	mov R6, a	
 	ret
 
+;Obsługa klikniecia guzikow
+buttons:
+	jnb P2.0, startButton
+	startButtonReturn:
+	jnb P2.1, stopButton
+	stopButtonReturn:
+	jnb P2.2, clearButton
+	clearButtonReturn:
 
+	ret
 
+startButton:
+	ljmp startButtonReturn
 
+stopButton:
+	ljmp stopButtonReturn
 
+clearButton:
+	ljmp clearButtonReturn
