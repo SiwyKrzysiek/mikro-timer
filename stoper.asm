@@ -22,12 +22,12 @@ org 000Bh
 
 ORG 1000
 start:
-	;setb 7Fh
-	clr 7Fh ;Timer stoi
+	setb 7Fh ;Timer dziala
+	;clr 7Fh ;Timer stoi
 	mov R7, #0 ;Tmier jest wyzerowany
 
 	;Ustawienienie trybu timera i zdjęcie masek
-	mov TMOD, #01b
+	mov TMOD, #10b
 	setb ET0
 	setb EA
 
@@ -46,13 +46,23 @@ timerTick:
 
 timerTickUp:
 	inc R7
+	lcall display
 
 timerTickEnd:
 	reti
 
 ;Procedura wyswietlenia wartosci timera
 display:
+	;Podzial na BCD
+	mov a, R7
+	mov b, #10
+	div ab
 	
+	;Wypisanie na R6R5
+	mov R6, a
+	mov R5, b
+	
+	ret
 
 
 
